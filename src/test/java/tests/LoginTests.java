@@ -52,6 +52,13 @@ public class LoginTests extends AppiumConfig {
                 .submitLoginNegative()
                 .isErrorMessageContainsText("Login or Password incorrect");
     }
+    @Test
+    public void loginWrongPassword(){
+        new AuthenticationScreen(driver)
+                .fillLoginRegistrationForm(Auth.builder().email("noa@gmail.com").password("Nnoa123").build())
+                .submitLoginNegative()
+                .isErrorMessageContainsText("Login or Password incorrect");
+    }
 @AfterMethod
     public void posCondition(){
         new ContactListScreen(driver).logout();
