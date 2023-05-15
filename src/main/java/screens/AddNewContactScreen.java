@@ -21,7 +21,7 @@ public class AddNewContactScreen extends BaseScreen{
     AndroidElement addressEditText;
     @FindBy(id = "com.sheygam.contactapp:id/inputDesc")
     AndroidElement descriptionEditText;
-    @FindBy(xpath = "//*[@text()='CREATE']")
+    @FindBy(xpath = "//*[@text='CREATE']")
     AndroidElement createButton;
 
     public AddNewContactScreen fillContactForm(Contact contact){
@@ -39,6 +39,14 @@ public class AddNewContactScreen extends BaseScreen{
     public ContactListScreen submitContactForm(){
         createButton.click();
         return new ContactListScreen(driver);
+    }
+    public AddNewContactScreen submitContactFormNegative(){
+        createButton.click();
+        return this;
+    }
+    public AddNewContactScreen isErrorContainsText(String text){
+        checkAlertText(text);
+        return this;
     }
 
     public ContactListScreen createContact(Contact contact){
