@@ -1,8 +1,11 @@
 package screens;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
@@ -17,12 +20,39 @@ public class ContactListScreen extends BaseScreen{
     AndroidElement activityTextView;
     @FindBy(xpath = "//*[@content-desc='More options']")
     AndroidElement menuOptions;
+    @FindBy(xpath = "//*[@content-desc='More options']")
+    List<AndroidElement> menuOptionsList;
     @FindBy(xpath = "//*[@text='Logout']")
     AndroidElement logoutButton;
     @FindBy(xpath = "//*[@content-desc='add']")
     AndroidElement plusButton;
     @FindBy(xpath = "//*[@resource-id='com.sheygam.contactapp:id/rowName']")
     List<AndroidElement> contactNameList;
+    @FindBy(xpath = "//*[@resource-id='com.sheygam.contactapp:id/rowContainer']")
+    List<AndroidElement> contactList;
+    @FindBy(id="android:id/button1")
+    AndroidElement yesBButton;
+
+    public ContactListScreen deleteFirstContact(){
+        isActivityTitleDisplayed("Contact list");
+        AndroidElement first = contactList.get(0);
+        Rectangle rectangle = first.getRect();
+
+        int xFrom=rectangle.getX()+rectangle.getWidth()/8;
+
+
+        int yFrom= rectangle.getY()+rectangle.getHeight()/2;
+       // int xTo=rectangle.getX()+(rectangle.getWidth()/8)*7;
+        int xto = rectangle.getWidth()-xFrom;
+        int yTo=yFrom;
+
+        TouchAction<?> touchAction = new TouchAction<>(driver);
+        touchAction.longPress(PointOption.point(xFrom,yFrom))
+                .moveTo(PointOption.point(xto,yTo))
+                .release().perform();
+
+        return this;
+    }
 
     public ContactListScreen isContactAddedByName(String name,String lastName){
       // List<AndroidElement> list =  driver.findElements(By.xpath(""));
@@ -61,6 +91,21 @@ Assert.assertTrue(isPresent);
 
     public AuthenticationScreen logout(){
         if(activityTextView.getText().equals("Contact list")) {
+            menuOptions.click();
+            logoutButton.click();
+        }
+        return new AuthenticationScreen(driver);
+    }
+    public AuthenticationScreen logout2(){
+        if(isElementDisplayed(menuOptions)) {
+            menuOptions.click();
+            logoutButton.click();
+        }
+        return new AuthenticationScreen(driver);
+    }
+
+    public AuthenticationScreen logout3(){
+        if(isElementPresentInList(menuOptionsList)) {
             menuOptions.click();
             logoutButton.click();
         }

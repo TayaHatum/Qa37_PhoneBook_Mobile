@@ -60,6 +60,8 @@ public class AddNewContactsTests extends AppiumConfig {
     @Test
     public void createNewContactSuccessReq(){
 
+
+
     }
 
     @AfterClass
