@@ -32,9 +32,14 @@ public class ContactListScreen extends BaseScreen{
     List<AndroidElement> contactList;
     @FindBy(id="android:id/button1")
     AndroidElement yesBButton;
+    int  countBefore;
+    int countAfter;
 
     public ContactListScreen deleteFirstContact(){
+
         isActivityTitleDisplayed("Contact list");
+        countBefore=contactList.size();
+        System.out.println(countBefore);
         AndroidElement first = contactList.get(0);
         Rectangle rectangle = first.getRect();
 
@@ -51,6 +56,11 @@ public class ContactListScreen extends BaseScreen{
                 .moveTo(PointOption.point(xto,yTo))
                 .release().perform();
 
+        should(yesBButton,8);
+        yesBButton.click();
+        shoulLessOne(contactList,countBefore);
+        countAfter=contactList.size();
+        System.out.println(countAfter);
         return this;
     }
 
@@ -110,5 +120,12 @@ Assert.assertTrue(isPresent);
             logoutButton.click();
         }
         return new AuthenticationScreen(driver);
+    }
+
+    public ContactListScreen isListSizeLessThenOne(){
+
+        Assert.assertEquals(countBefore-countAfter,1);
+
+        return this;
     }
 }

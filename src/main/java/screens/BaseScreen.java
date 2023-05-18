@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,6 +40,12 @@ public class BaseScreen {
     public void should(AndroidElement element, int time){
         new WebDriverWait(driver,time).until(ExpectedConditions.visibilityOf(element));
     }
+
+    public void shoulLessOne(List<AndroidElement>list, int less){
+        new WebDriverWait(driver, 5)
+                .until(ExpectedConditions.numberOfElementsToBeLessThan(By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowContainer']"), less));
+    }
+
     public void checkAlertText(String text){
         Alert alert = new WebDriverWait(driver,10)
                 .until(ExpectedConditions.alertIsPresent());
