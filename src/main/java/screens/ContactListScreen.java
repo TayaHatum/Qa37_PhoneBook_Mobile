@@ -133,7 +133,8 @@ Assert.assertTrue(isPresent);
     }
     public ContactListScreen removeAllContact() {
         pause(1000);
-        while (driver.findElements(By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowContainer']")).size()>0){
+       // while (driver.findElements(By.xpath("//*[@resource-id='com.sheygam.contactapp:id/rowContainer']")).size()>0){
+        while (contactList.size()>0){
             deleteFirstContact();
         }
 
